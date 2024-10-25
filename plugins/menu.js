@@ -16,36 +16,11 @@ let path = require('path')
 let fetch = require('node-fetch')
 let moment = require('moment-timezone')
 let levelling = require('../lib/levelling')
+const arrayMenu = ['all', 'main', 'downloader', 'rpg', 'rpgG', 'sticker', 'advanced', 'xp', 'fun', 'game', 'github', 'group', 'image', 'nsfw', 'info', 'internet', 'islam', 'kerang', 'maker', 'owner', 'voice', 'quotes', 'stalk', 'shortlink', 'tools', 'anonymous', ''];
 
-const arrayMenu = [
-    'main',
-    'downloader',
-    'rpg',
-    'rpgG', 
-    'sticker',
-    'advanced',
-    'xp',
-    'fun',
-    'game',
-    'github',
-    'group',
-    'image',
-    'nsfw',
-    'info',
-    'internet',
-    'islam',
-    'kerang',
-    'maker',
-    'owner',
-    'voice',
-    'quotes',
-    'stalk', 
-    'shortlink',
-    'tools',
-    'anonymous'
-]
 
 const allTags = {
+    'all': 'SEMUA MENU',
     'main': 'MENU UTAMA',
     'downloader': 'MENU DOWNLOADER',
     'rpg': 'MENU RPG',
@@ -70,7 +45,8 @@ const allTags = {
     'stalk': 'MENU STALK',
     'shortlink': 'SHORT LINK',
     'tools': 'MENU TOOLS',
-    'anonymous': 'ANONYMOUS CHAT'
+    'anonymous': 'ANONYMOUS CHAT',
+    '': 'NO CATEGORY'
 }
 
 const defaultMenu = {
@@ -149,7 +125,7 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
             let text = menuList.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
                 (_, name) => '' + replace[name])
 
-            await conn.relayMessage(m.chat, {
+            await await conn.relayMessage(m.chat, {
             extendedTextMessage:{
                 text: text, 
                 contextInfo: {
@@ -174,21 +150,42 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
         }
 
         let menuCategory = defaultMenu.before + '\n\n'
-        menuCategory += defaultMenu.header.replace(/%category/g, allTags[teks]) + '\n'
         
-        let categoryCommands = help.filter(menu => menu.tags && menu.tags.includes(teks) && menu.help)
-        
-        for (let menu of categoryCommands) {
-            for (let help of menu.help) {
-                menuCategory += defaultMenu.body
-                    .replace(/%cmd/g, menu.prefix ? help : _p + help)
-                    .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
-                    .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n'
+        if (teks === 'all') {
+            // category all
+            for (let tag of arrayMenu) {
+                if (tag !== 'all' && allTags[tag]) {
+                    menuCategory += defaultMenu.header.replace(/%category/g, allTags[tag]) + '\n'
+                    
+                    let categoryCommands = help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help)
+                    for (let menu of categoryCommands) {
+                        for (let help of menu.help) {
+                            menuCategory += defaultMenu.body
+                                .replace(/%cmd/g, menu.prefix ? help : _p + help)
+                                .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
+                                .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n'
+                        }
+                    }
+                    menuCategory += defaultMenu.footer + '\n'
+                }
             }
+        } else {
+            menuCategory += defaultMenu.header.replace(/%category/g, allTags[teks]) + '\n'
+            
+            let categoryCommands = help.filter(menu => menu.tags && menu.tags.includes(teks) && menu.help)
+            for (let menu of categoryCommands) {
+                for (let help of menu.help) {
+                    menuCategory += defaultMenu.body
+                        .replace(/%cmd/g, menu.prefix ? help : _p + help)
+                        .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
+                        .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n'
+                }
+            }
+            menuCategory += defaultMenu.footer + '\n'
         }
-        
-        menuCategory += defaultMenu.footer + '\n\n' + defaultMenu.after
 
+        menuCategory += '\n' + defaultMenu.after
+        
         let replace = {
             '%': '%',
             p: _p, 
@@ -201,7 +198,7 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
         let text = menuCategory.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
             (_, name) => '' + replace[name])
 
-        await conn.relayMessage(m.chat, {
+        await await conn.relayMessage(m.chat, {
             extendedTextMessage:{
                 text: text, 
                 contextInfo: {
@@ -218,7 +215,6 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
                 mentions: [m.sender]
             }
         }, {})
-
     } catch (e) {
         conn.reply(m.chat, 'Maaf, menu sedang error', m)
         console.error(e)
@@ -227,7 +223,7 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
 
 handler.help = ['menu']
 handler.tags = ['main']
-handler.command = /^(menu|help|bot)$/i
+handler.command = /^(menu|help)$/i
 handler.exp = 3
 
 module.exports = handler
