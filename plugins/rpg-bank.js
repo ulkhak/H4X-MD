@@ -96,7 +96,7 @@ JSON.stringify({
     return conn.relayMessage(m.chat, msg, { });
 }
 
-handler.help = ['Bank']
+handler.help = ['bank']
 handler.tags = ['rpg']
 handler.command = /^bank$/i
 
