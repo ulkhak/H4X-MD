@@ -3,6 +3,7 @@
 **Update :**
 ----
 - Update Menu jadi lebih simple dalam penggunaan nya
+- Add Game RPG 
 - Menggunakan baileys 6.7.8
 - Support *QR* dan *Pairing* Code *Command:*
   ```bash
