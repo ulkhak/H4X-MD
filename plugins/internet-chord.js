@@ -1,10 +1,9 @@
 let fetch = require('node-fetch');
 
 let handler = async (m, { text, command, usedPrefix }) => {
-	if (!text) throw `Example: ${usedPrefix + command} Janji Suci Yovie Nuno`
-	m.reply(wait)
-	const fetch = require('node-fetch');
-  try {
+if (!text) throw `Example: ${usedPrefix + command} Janji Suci Yovie Nuno`
+m.reply(wait)
+try {
     let response = await fetch(`https://api.botcahx.eu.org/api/search/chord?song=${text}&apikey=${btc}`);
     let data = await response.json();
 
