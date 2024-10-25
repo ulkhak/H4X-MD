@@ -21,7 +21,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   }
 }
 handler.help = ['tomp3', 'tovn']
-handler.tags = ['Pengubah Suara']
+handler.tags = ['voice']
 handler.command = /^to(mp3|vn|ptt)$/i
 
 module.exports = handler
