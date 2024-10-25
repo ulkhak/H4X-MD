@@ -11,8 +11,9 @@
 - Fitur 95% implementasi dari website api
   
 - Informasi api & update script [WhatsApp](https://whatsapp.com/channel/0029Va8ZH8fFXUuc69TGVw1q)
+
+
 ----
-  
   ## Note!
   **Important :**
   
@@ -21,17 +22,17 @@
   
 - Menggunakan 95% fitur dari [`RestApi`](https://api.botcahx.eu.org)  
 
-
+----
 **Apikey :**
 - [✓] Free ApiKey 15 Request per/day
-- [✓] Premium ApiKey 5000 Request (for 1 month)
+- [ + ] Recommendation to upgrade limit to premium (for 1 month)
 - Jika ingin membeli ```Apikey``` Premium silahkan register lalu pilih paket yang di inginkan [`Pilih`](https://api.botcahx.eu.org/price)
 
 **Website Api :**
 - BOTCAHX [`Register`](https://api.botcahx.eu.org)
-- Lann [`Register`](https://api.betabotz.eu.org)
+- Lann [`Optional Register`](https://api.betabotz.eu.org) 
 - Setelah mendapatkan apikey silahkan paste di config.js pada bagian ```global.btc``` dan sebagai optional kamu bisa juga mengisi ```global.lann```
-
+---
 
 ## Support me 
 
