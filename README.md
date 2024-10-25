@@ -1,11 +1,18 @@
-## New Update
+## CHANGELOG
 
-**Pembaruan :**
-
-- Telah support *QR* dan *Pairing* Code 
-- Use pairing, *Command* ```node index.js --pairing``` 
+**Update :**
+----
+- Update Menu jadi lebih simple dalam penggunaan nya
+- Menggunakan baileys 6.7.8
+- Support *QR* dan *Pairing* Code *Command:*
+  ```bash
+   node index.js --pairing
+  ``` 
 - Fitur 95% implementasi dari website api
+  
 - Informasi api & update script [WhatsApp](https://whatsapp.com/channel/0029Va8ZH8fFXUuc69TGVw1q)
+----
+  
   ## Note!
   **Important :**
   
@@ -26,10 +33,7 @@
 - Setelah mendapatkan apikey silahkan paste di config.js pada bagian ```global.btc``` dan sebagai optional kamu bisa juga mengisi ```global.lann```
 
 
-## Group Bot
-- Group Bot [`Join`](https://chat.whatsapp.com/CP5mV2D9IO730HpBgmkuyi)
-- Group Bebas [`Join`](https://chat.whatsapp.com/KrxlrTjuZ1o3gbL4fyXTnL)
-## Support
+## Support me 
 
 <a href="https://sociabuzz.com/tioclkp02" target="_blank"><img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" height="32px" alt="Sociabuzz"></a>
 
@@ -58,15 +62,15 @@ Original base [`Link`](https://github.com/HelgaIlham/ZukaBet)
 * Unduh & Instal FFmpeg [`Klik Disini`](https://ffmpeg.org/download.html) (**Jangan Lupa Tambahkan FFmpeg ke variabel lingkungan PATH**)
 * Unduh & Instal ImageMagick [`Klik Disini`](https://imagemagick.org/script/download.php)
 
-```javascript
+```bash
 git clone https://github.com/BOTCAHX/RTXZY-MD
 cd RTXZY-MD
 npm i
 node index.js
 ```
-```javascript
-// to get pairing code //
 
+### To get pairing code 
+```bash
 node index.js --pairing
 
 ```
