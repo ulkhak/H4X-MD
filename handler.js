@@ -434,8 +434,22 @@ module.exports = {
                     if (!isNumber(user.lastdate)) user.lastdate = 0
                     if (!isNumber(user.lasttambang)) user.lasttambang = 0
                     if (!isNumber(user.lastngepet)) user.lastngepet = 0
+                    if (!isNumber(user.lasttaxi)) user.lasttaxi = 0
+                    if (!isNumber(user.taxi)) user.taxi = 0  
+                    if (!isNumber(user.lastyoutuber)) user.lastyoutuber = 0
+                    if (!isNumber(user.subscribers)) user.subscribers = 0
+                    if (!isNumber(user.viewers)) user.viewers = 0
+                    if (!isNumber(user.like)) user.like = 0
+                    if (!isNumber(user.playButton)) user.playButton = 0
                    
                 } else global.db.data.users[m.sender] = {
+                    taxi: 0,
+                    lasttaxi: 0,
+                    lastyoutuber: 0,
+                    subscribers: 0,
+                    viewers: 0,
+                    like: 0,
+                    playButton: 0,
                     saldo: 0,
                     pengeluaran: 0,
                     healt: 100,
