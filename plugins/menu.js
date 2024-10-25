@@ -17,8 +17,7 @@ let fetch = require('node-fetch')
 let moment = require('moment-timezone')
 let levelling = require('../lib/levelling')
 
-let tags
-let arrayMenu = [
+const arrayMenu = [
     'main',
     'downloader',
     'rpg',
@@ -43,7 +42,7 @@ let arrayMenu = [
     'stalk', 
     'shortlink',
     'tools',
-    'anonymous',
+    'anonymous'
 ]
 
 const allTags = {
@@ -101,7 +100,6 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
         let name = `@${m.sender.split`@`[0]}`
         let teks = args[0] || ''
         
-        // Time settings 
         let d = new Date(new Date + 3600000)
         let locale = 'id'
         let date = d.toLocaleDateString(locale, {
@@ -119,10 +117,9 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
         let _uptime = process.uptime() * 1000
         let uptime = clockString(_uptime)
         
-        // Get help list
         let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => {
             return {
-                help: Array.isArray(plugin.tags) ? plugin.help : [plugin.help],
+                help: Array.isArray(plugin.help) ? plugin.help : [plugin.help],
                 tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
                 prefix: 'customPrefix' in plugin,
                 limit: plugin.limit,
@@ -131,7 +128,6 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
             }
         })
 
-        // main menu 
         if (!teks) {
             let menuList = `${defaultMenu.before}\n\n┌  ◦ *DAFTAR MENU*\n`
             for (let tag of arrayMenu) {
@@ -141,7 +137,6 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
             }
             menuList += `└  \n\n${defaultMenu.after}`
 
-            // Replace placeholders nya
             let replace = {
                 '%': '%',
                 p: _p, 
@@ -151,26 +146,26 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
                 time
             }
 
-            menuList = menuList.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
+            let text = menuList.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
                 (_, name) => '' + replace[name])
 
             await conn.relayMessage(m.chat, {
-                extendedTextMessage:{
-                    text: menuList,
-                    contextInfo: {
-                        mentionedJid: [m.sender],
-                        externalAdReply: {
-                            title: date,
-                            mediaType: 1,
-                            previewType: 0,
-                            renderLargerThumbnail: true,
-                            thumbnailUrl: 'https://telegra.ph/file/3a34bfa58714bdef500d9.jpg',
-                            sourceUrl: 'https://whatsapp.com/channel/0029Va8ZH8fFXUuc69TGVw1q'
-                        }
-                    },
-                    mentions: [m.sender]
-                }
-            }, {})
+            extendedTextMessage:{
+                text: text, 
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    externalAdReply: {
+                        title: date,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/3a34bfa58714bdef500d9.jpg',
+                        sourceUrl: 'https://whatsapp.com/channel/0029Va8ZH8fFXUuc69TGVw1q'
+                    }
+                }, 
+                mentions: [m.sender]
+            }
+        }, {})
             return
         }
 
@@ -178,36 +173,22 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
             return m.reply(`Menu "${teks}" tidak tersedia.\nSilakan ketik ${_p}menu untuk melihat daftar menu.`)
         }
 
-        tags = { [teks]: allTags[teks] }
+        let menuCategory = defaultMenu.before + '\n\n'
+        menuCategory += defaultMenu.header.replace(/%category/g, allTags[teks]) + '\n'
         
-        let groups = {}
-        for (let tag in tags) {
-            groups[tag] = []
-            for (let plugin of help)
-                if (plugin.tags && plugin.tags.includes(tag))
-                    if (plugin.help) groups[tag].push(plugin)
+        let categoryCommands = help.filter(menu => menu.tags && menu.tags.includes(teks) && menu.help)
+        
+        for (let menu of categoryCommands) {
+            for (let help of menu.help) {
+                menuCategory += defaultMenu.body
+                    .replace(/%cmd/g, menu.prefix ? help : _p + help)
+                    .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
+                    .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n'
+            }
         }
-
-        let _text = [
-            defaultMenu.before,
-            ...Object.keys(tags).map(tag => {
-                return defaultMenu.header.replace(/%category/g, tags[tag]) + '\n' + [
-                    ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
-                        return menu.help.map(help => {
-                            return defaultMenu.body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
-                                .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
-                                .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '')
-                                .trim()
-                        }).join('\n')
-                    }),
-                    defaultMenu.footer
-                ].join('\n')
-            }),
-            defaultMenu.after
-        ].join('\n')
-
-        let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
         
+        menuCategory += defaultMenu.footer + '\n\n' + defaultMenu.after
+
         let replace = {
             '%': '%',
             p: _p, 
@@ -217,9 +198,9 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
             time
         }
 
-        text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
+        let text = menuCategory.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
             (_, name) => '' + replace[name])
-        
+
         await conn.relayMessage(m.chat, {
             extendedTextMessage:{
                 text: text, 
