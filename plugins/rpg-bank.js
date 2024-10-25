@@ -21,7 +21,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   capt += `> *${usedPrefix} atm <jumlah>* untuk menabung\n`
   capt += `> *${usedPrefix} pull <jumlah>* untuk menarik uang\n`
 
-  await await await conn.relayMessage(m.chat, {
+  await conn.relayMessage(m.chat, {
             extendedTextMessage:{
                 text: capt, 
                 contextInfo: {
