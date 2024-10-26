@@ -125,7 +125,7 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
             let text = menuList.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
                 (_, name) => '' + replace[name])
 
-            await await conn.relayMessage(m.chat, {
+            await conn.relayMessage(m.chat, {
             extendedTextMessage:{
                 text: text, 
                 contextInfo: {
@@ -198,7 +198,7 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
         let text = menuCategory.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
             (_, name) => '' + replace[name])
 
-        await await conn.relayMessage(m.chat, {
+        await conn.relayMessage(m.chat, {
             extendedTextMessage:{
                 text: text, 
                 contextInfo: {
