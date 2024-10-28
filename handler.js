@@ -810,8 +810,8 @@ module.exports = {
                 if (!('isBannedTime' in chat)) chat.isBannedTime = false
                 if (!('mute' in chat)) chat.mute = false
                 if (!('listStr' in chat)) chat.listStr = {}
-                if (!('sWelcome' in chat)) chat.sWelcome = 'Hai, kak @user 👋\nSelamat datang di grup @subject 😅\nJangan lupa intro kak 😅\n\n*Nama:*\n*Umur:*\n*Askot:*\n\n*Deskripsi Grup:*\n\n@desc\n\n'
-                if (!('sBye' in chat)) chat.sBye = 'Selamat tinggal @user 👋'
+                if (!('sWelcome' in chat)) chat.sWelcome = 'Hai, @user!\nSelamat datang di grup @subject\n\n@desc'
+                if (!('sBye' in chat)) chat.sBye = 'Selamat tinggal @user!'
                 if (!('sPromote' in chat)) chat.sPromote = ''
                 if (!('sDemote' in chat)) chat.sDemote = ''
                 if (!('delete' in chat)) chat.delete = true
@@ -848,8 +848,8 @@ module.exports = {
                 isBannedTime: false,
                 mute: false,
                 listStr: {},
-                sWelcome: 'Hai, kak @user 👋\nSelamat datang di grup @subject 😅\nJangan lupa intro kak 😅\n\n*Nama:*\n*Umur:*\n*Askot:*\n\n*Deskripsi Grup:*\n\n@desc\n\n',
-                sBye: 'Selamat tinggal @user 👋',
+                sWelcome: 'Hai, @user!\nSelamat datang di grup @subject\n\n@desc',
+                sBye: 'Selamat tinggal @user!',
                 sPromote: '',
                 sDemote: '',
                 delete: false, 
@@ -1180,7 +1180,7 @@ module.exports = {
                 if (chat.welcome) {
                     let groupMetadata = await this.groupMetadata(id) || (conn.chats[id] || {}).metadata
                     for (let user of participants) {
-                        let pp = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mFzSckd12spppS8gAJ2KB2ER-ccZd4pBbw&usqp=CAU'
+                        let pp = 'https://btch.pages.dev/file/70e8de9b1879568954f09.jpg'
                         try {
                              pp = await this.profilePictureUrl(user, 'image')
                         } catch (e) {
@@ -1191,14 +1191,15 @@ module.exports = {
                             text: text,
                             contextInfo: {
 			    mentionedJid: [user],
-                            externalAdReply: {  
-                            title: action === 'add' ? 'Selamat Datang' : 'Selamat tinggal',
+                            externalAdReply: {
+		            title: '',
+                            //title: action === 'add' ? 'Selamat Datang' : 'Selamat tinggal',
                             body: global.wm,
                             thumbnailUrl: pp,
                             sourceUrl: 'https://api.botcahx.eu.org',
                             mediaType: 1,
                             renderLargerThumbnail: true 
-                            }}}, { quoted: null})
+                            }}}, { quoted: null })
                         }
                     }
                 }
