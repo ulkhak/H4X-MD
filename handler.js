@@ -1193,7 +1193,7 @@ module.exports = {
 			    mentionedJid: [user],
                             externalAdReply: {  
                             title: global.wm,
-                            body: action === 'add' ? 'Selamat Datang' : 'Selamat tinggal',
+                            body: '',
                             thumbnailUrl: pp,
                             sourceUrl: 'https://api.botcahx.eu.org',
                             mediaType: 1,
