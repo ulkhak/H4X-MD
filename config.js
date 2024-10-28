@@ -25,8 +25,7 @@ global.lann = 'YOUR_APIKEY_HERE'
 
 //jangan diganti!
 global.APIs = {   
-  btc: 'https://api.botcahx.eu.org',
-  widipe: 'https://widipe.com'
+  btc: 'https://api.botcahx.eu.org'
 }
 
 //ini tidak di isi juga tidak apa-apa
