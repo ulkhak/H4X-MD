@@ -1191,10 +1191,9 @@ module.exports = {
                             text: text,
                             contextInfo: {
 			    mentionedJid: [user],
-                            externalAdReply: {
-		            title: '',
-                            //title: action === 'add' ? 'Selamat Datang' : 'Selamat tinggal',
-                            body: global.wm,
+                            externalAdReply: {  
+                            title: global.wm,
+                            body: action === 'add' ? 'Selamat Datang' : 'Selamat tinggal',
                             thumbnailUrl: pp,
                             sourceUrl: 'https://api.botcahx.eu.org',
                             mediaType: 1,
@@ -1202,7 +1201,7 @@ module.exports = {
                             }}}, { quoted: null })
                         }
                     }
-                }
+		}
                 break                    
             case 'promote':
                 text = (chat.sPromote || this.spromote || conn.spromote || '@user ```is now Admin```')
