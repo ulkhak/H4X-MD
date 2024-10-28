@@ -810,7 +810,7 @@ module.exports = {
                 if (!('isBannedTime' in chat)) chat.isBannedTime = false
                 if (!('mute' in chat)) chat.mute = false
                 if (!('listStr' in chat)) chat.listStr = {}
-                if (!('sWelcome' in chat)) chat.sWelcome = 'Selamat datang @user di group @subject utamakan baca desk ya \n@desc'
+                if (!('sWelcome' in chat)) chat.sWelcome = 'Hai, kak @user 👋\nSelamat datang di grup @subject 😅\nJangan lupa intro kak 😅\n\n*Nama:*\n*Umur:*\n*Askot:*\n\n*Deskripsi Grup:*\n\n@desc\n\n'
                 if (!('sBye' in chat)) chat.sBye = 'Selamat tinggal @user 👋'
                 if (!('sPromote' in chat)) chat.sPromote = ''
                 if (!('sDemote' in chat)) chat.sDemote = ''
@@ -848,7 +848,7 @@ module.exports = {
                 isBannedTime: false,
                 mute: false,
                 listStr: {},
-                sWelcome: 'Selamat datang @user di group @subject utamakan baca desk ya \n@desc',
+                sWelcome: 'Hai, kak @user 👋\nSelamat datang di grup @subject 😅\nJangan lupa intro kak 😅\n\n*Nama:*\n*Umur:*\n*Askot:*\n\n*Deskripsi Grup:*\n\n@desc\n\n',
                 sBye: 'Selamat tinggal @user 👋',
                 sPromote: '',
                 sDemote: '',
