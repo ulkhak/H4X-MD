@@ -15,7 +15,7 @@ handler.before = async function (m, {
 		'#') || m.text
 		.startsWith('!') || m
 		.text.startsWith('/') ||
-		m.text.startsWith('\/'))
+		m.text.startsWith('\\'))
 		return;
 	if (chat.isBanned) return;
 	if (!m.text.includes(
@@ -30,6 +30,8 @@ handler.before = async function (m, {
 		/^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)(?:tv\/|p\/|reel\/)(?:\S+)?$/i;
 	const facebookRegex =
 		/^(?:https?:\/\/(web\.|www\.|m\.)?(facebook|fb)\.(com|watch)\S+)?$/i;
+	const pinRegex =
+		/^(?:https?:\/\/)?(?:www\.)?(pinterest\.(com|it)|pin\.it)\/(?:pin\/)?[^\/\s]+(?:\/)?$/i;
 	if (text.match(
 		tiktokRegex)) {
 		conn.sendMessage(m
@@ -37,7 +39,7 @@ handler.before = async function (m, {
 			react: {
 				text: '🕒',
 				key: m
-					.key,
+					.key
 			}
 		});
 		await _tiktok(text
@@ -52,7 +54,7 @@ handler.before = async function (m, {
 			react: {
 				text: '🕒',
 				key: m
-					.key,
+					.key
 			}
 		});
 		await _douyin(text
@@ -67,7 +69,7 @@ handler.before = async function (m, {
 			react: {
 				text: '🕒',
 				key: m
-					.key,
+					.key
 			}
 		});
 		await _instagram(text
@@ -82,7 +84,7 @@ handler.before = async function (m, {
 			react: {
 				text: '🕒',
 				key: m
-					.key,
+					.key
 			}
 		});
 		await _facebook(text
@@ -90,14 +92,27 @@ handler.before = async function (m, {
 				facebookRegex
 				)[0], m);
 	}
-	return !0;
+	else if (text.match(
+			pinRegex)) {
+		conn.sendMessage(m
+		.chat, {
+			react: {
+				text: '🕒',
+				key: m
+					.key
+			}
+		});
+		await _pindl(text.match(
+				pinRegex)[
+			0], m);
+	}
+	return true;
 }
 module.exports = handler;
-let old = new Date()
-const _sleep = (ms) => {
-	return new Promise(resolve =>
-		setTimeout(resolve, ms));
-}
+let old = new Date();
+const _sleep = (ms) => new Promise(
+	resolve => setTimeout(resolve,
+		ms));
 async function _tiktok(link, m) {
 	try {
 		if (global.db.data.users[m
@@ -277,8 +292,7 @@ async function _instagram(link, m) {
 			const res =
 				await response
 				.json();
-			const limitnya =
-			3;
+			const limitnya = 3;
 			for (let i = 0; i < Math
 				.min(limitnya, res
 					.result.length
@@ -288,7 +302,7 @@ async function _instagram(link, m) {
 					.chat, res
 					.result[i]
 					.url, null,
-					`*Instagram Downloader*`,
+					`🍟 *Fetching* : ${((new Date - old) * 1)} ms`,
 					m);
 			}
 			global.db.data.users[m
@@ -336,6 +350,64 @@ async function _facebook(link, m) {
 					'fb.mp4',
 					`🍟 *Fetching* : ${((new Date - old) * 1)} ms`,
 					m);
+			}
+			else {
+				conn.reply(m.chat,
+					'Gagal mendapatkan video',
+					m);
+			}
+		}
+		else {
+			conn.reply(m.chat,
+				'limit kamu habis!',
+				m);
+		}
+	}
+	catch (error) {
+		console.error(error);
+	}
+}
+async function _pindl(link, m) {
+	try {
+		if (global.db.data.users[m
+				.sender].limit >
+			0) {
+			const api = await fetch(
+				`https://api.botcahx.eu.org/api/download/pinterest?url=${link}&apikey=${btc}`
+				);
+			const res = await api
+				.json();
+			if (res.result && res
+				.result.data) {
+				let {
+					media_type,
+					image,
+					title
+				} = res.result.data;
+				global.db.data
+					.users[m.sender]
+					.limit -= 1;
+				if (media_type ===
+					'video') {
+					await conn
+						.sendMessage(
+							m
+							.chat, {
+								video: {
+									url: image
+								},
+								caption: `🍟 *Fetching* : ${((new Date - old) * 1)} ms`
+							});
+				}
+				else {
+					await conn
+						.sendFile(m
+							.chat,
+							image,
+							'pindl.jpeg',
+							`🍟 *Fetching* : ${((new Date - old) * 1)} ms`,
+							m);
+				}
 			}
 			else {
 				conn.reply(m.chat,
