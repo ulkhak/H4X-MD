@@ -388,7 +388,7 @@ async function _pindl(link, m) {
 					.users[m.sender]
 					.limit -= 1;
 				if (media_type ===
-					'video') {
+					'video/mp4') {
 					await conn
 						.sendMessage(
 							m
