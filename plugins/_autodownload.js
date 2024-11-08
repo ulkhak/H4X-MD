@@ -272,31 +272,37 @@ async function _instagram(link, m) {
 			0) {
 			const response =
 				await fetch(
-					`https://api.botcahx.eu.org/api/download/igdowloader?url=${link}&apikey=${btc}`
+					`https://api.botcahx.eu.org/api/dowloader/igdowloader?url=${link}&apikey=${btc}`
 					);
-			let message =
+			const res =
 				await response
 				.json();
+			const limitnya =
+			3;
+			for (let i = 0; i < Math
+				.min(limitnya, res
+					.result.length
+					); i++) {
+				await _sleep(3000);
+				conn.sendFile(m
+					.chat, res
+					.result[i]
+					.url, null,
+					`*Instagram Downloader*`,
+					m);
+			}
 			global.db.data.users[m
 					.sender]
 				.limit -= 1;
-			for (let i of message
-					.message) {
-				conn.sendFile(m
-					.chat, i
-					._url, null,
-					`🍟 *Fetching* : ${((new Date - old) * 1)} ms`,
-					m);
-			}
 		}
 		else {
 			conn.reply(m.chat,
-				'limit kamu habis!',
+				"Limit kamu habis!",
 				m);
 		}
 	}
 	catch (err) {
-		console.error(error);
+		console.error(err);
 	}
 }
 async function _facebook(link, m) {
