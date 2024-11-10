@@ -47,5 +47,5 @@ const sentMsg  = await conn.sendMessage(
 await conn.reply(m.chat, "Itu Adalah nomor owner Bot", sentMsg)}
 handler.command = handler.help = ['owner', 'creator'];
 handler.tags = ['info'];
-handler.limit = true;
+handler.limit = false;
 module.exports = handler;
