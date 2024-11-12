@@ -1217,7 +1217,7 @@ module.exports = {
         }
     },
     async delete({ remoteJid, fromMe, id, participant }) {
-        if (fromMe) return
+        /*if (fromMe) return
         let chats = Object.entries(conn.chats).find(([user, data]) => data.messages && data.messages[id])
         if (!chats) return
         let msg = JSON.parse(chats[1].messages[id])
@@ -1230,7 +1230,7 @@ Untuk mematikan fitur ini, ketik
 `.trim(), msg, {
             mentions: [participant]
         })
-        this.copyNForward(msg.key.remoteJid, msg).catch(e => console.log(e, msg))
+        this.copyNForward(msg.key.remoteJid, msg).catch(e => console.log(e, msg))*/
     }
 }
 
