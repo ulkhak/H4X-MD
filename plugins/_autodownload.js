@@ -1,5 +1,5 @@
-let fetch = require('node-fetch');
-let handler = m => m;
+let fetch = require("node-fetch");
+let handler = (m) => m;
 handler.before = async function (m, {
 	conn,
 	isPrems
@@ -8,20 +8,20 @@ handler.before = async function (m, {
 		.chats[m.chat];
 	if (!m.text) return;
 	if (m.text.startsWith(
-		'=>') || m.text
-		.startsWith('>') || m
-		.text.startsWith('.') ||
+		"=>") || m.text
+		.startsWith(">") || m
+		.text.startsWith(".") ||
 		m.text.startsWith(
-		'#') || m.text
-		.startsWith('!') || m
-		.text.startsWith('/') ||
-		m.text.startsWith('\\'))
+		"#") || m.text
+		.startsWith("!") || m
+		.text.startsWith("/") ||
+		m.text.startsWith("\\"))
 		return;
 	if (chat.isBanned) return;
 	if (!m.text.includes(
-		'http')) return;
+		"http")) return;
 	let text = m.text.replace(
-		/\n+/g, ' ');
+		/\n+/g, " ");
 	const tiktokRegex =
 		/^(?:https?:\/\/)?(?:www\.|vt\.|vm\.|t\.)?(?:tiktok\.com\/)(?:\S+)?$/i;
 	const douyinRegex =
@@ -31,16 +31,18 @@ handler.before = async function (m, {
 	const facebookRegex =
 		/^(?:https?:\/\/(web\.|www\.|m\.)?(facebook|fb)\.(com|watch)\S+)?$/i;
 	const pinRegex =
-		/^(?:https?:\/\/)?(?:www\.)?(pinterest\.(com|it)|pin\.it)\/(?:pin\/)?[^\/\s]+(?:\/)?$/i;
+		/^(?:https?:\/\/)?(?:www\.|id\.)?(?:pinterest\.(?:com|it|co\.[a-z]{2}|[a-z]{2})|pin\.it)\/(?:pin\/)?[^\/\s]+(?:\/)?$/i;
+	const youtubeRegex =
+		/^(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)(?:\S+)?$/i;
 	if (text.match(
 		tiktokRegex)) {
 		conn.sendMessage(m
 		.chat, {
 			react: {
-				text: '🕒',
+				text: "🕒",
 				key: m
-					.key
-			}
+					.key,
+			},
 		});
 		await _tiktok(text
 			.match(
@@ -52,10 +54,10 @@ handler.before = async function (m, {
 		conn.sendMessage(m
 		.chat, {
 			react: {
-				text: '🕒',
+				text: "🕒",
 				key: m
-					.key
-			}
+					.key,
+			},
 		});
 		await _douyin(text
 			.match(
@@ -67,10 +69,10 @@ handler.before = async function (m, {
 		conn.sendMessage(m
 		.chat, {
 			react: {
-				text: '🕒',
+				text: "🕒",
 				key: m
-					.key
-			}
+					.key,
+			},
 		});
 		await _instagram(text
 			.match(
@@ -82,10 +84,10 @@ handler.before = async function (m, {
 		conn.sendMessage(m
 		.chat, {
 			react: {
-				text: '🕒',
+				text: "🕒",
 				key: m
-					.key
-			}
+					.key,
+			},
 		});
 		await _facebook(text
 			.match(
@@ -97,22 +99,37 @@ handler.before = async function (m, {
 		conn.sendMessage(m
 		.chat, {
 			react: {
-				text: '🕒',
+				text: "🕒",
 				key: m
-					.key
-			}
+					.key,
+			},
 		});
 		await _pindl(text.match(
 				pinRegex)[
 			0], m);
 	}
+	else if (text.match(
+			youtubeRegex)) {
+		conn.sendMessage(m
+		.chat, {
+			react: {
+				text: "🕒",
+				key: m
+					.key,
+			},
+		});
+		await _youtube(text
+			.match(
+				youtubeRegex
+				)[0], m);
+	}
 	return true;
-}
+};
 module.exports = handler;
 let old = new Date();
-const _sleep = (ms) => new Promise(
-	resolve => setTimeout(resolve,
-		ms));
+const _sleep = (ms) => new Promise((
+	resolve) => setTimeout(
+	resolve, ms));
 async function _tiktok(link, m) {
 	try {
 		if (global.db.data.users[m
@@ -139,7 +156,7 @@ async function _tiktok(link, m) {
 						.sendFile(m
 							.chat,
 							v, null,
-							`🍟 *Fetching* : ${((new Date - old) * 1)} ms`,
+							`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 							m);
 					await _sleep(
 						3000);
@@ -147,24 +164,25 @@ async function _tiktok(link, m) {
 			}
 			else {
 				await conn
-					.sendMessage(m
-						.chat, {
+					.sendMessage(
+						m.chat, {
 							video: {
 								url: data
 									.result
 									.video[
 										0
-										]
+										],
 							},
-							caption: `🍟 *Fetching* : ${((new Date - old) * 1)} ms`
+							caption: `🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 						}, {
-							mention: m
-						});
+							mention: m,
+						}
+					);
 			}
 		}
 		else {
 			conn.reply(m.chat,
-				'limit kamu habis!',
+				"limit kamu habis!",
 				m);
 		}
 	}
@@ -213,7 +231,7 @@ async function _douyin(link, m) {
 								.chat,
 								img,
 								null,
-								`🍟 *Fetching* : ${((new Date - old) * 1)} ms`,
+								`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 								m);
 						await _sleep
 							(3000);
@@ -240,7 +258,7 @@ async function _douyin(link, m) {
 								.chat,
 								v,
 								null,
-								`🍟 *Fetching* : ${((new Date - old) * 1)} ms`,
+								`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 								m);
 						await _sleep
 							(3000);
@@ -256,23 +274,24 @@ async function _douyin(link, m) {
 										.result
 										.video[
 											0
-											]
+											],
 								},
-								caption: `🍟 *Fetching* : ${((new Date - old) * 1)} ms`
+								caption: `🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 							}, {
-								mention: m
-							});
+								mention: m,
+							}
+						);
 				}
 			}
 			else {
 				conn.reply(m.chat,
-					'Maaf, tidak dapat mengunduh konten!',
+					"Maaf, tidak dapat mengunduh konten!",
 					m);
 			}
 		}
 		else {
 			conn.reply(m.chat,
-				'limit kamu habis!',
+				"limit kamu habis!",
 				m);
 		}
 	}
@@ -302,7 +321,7 @@ async function _instagram(link, m) {
 					.chat, res
 					.result[i]
 					.url, null,
-					`🍟 *Fetching* : ${((new Date - old) * 1)} ms`,
+					`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 					m);
 			}
 			global.db.data.users[m
@@ -324,7 +343,6 @@ async function _facebook(link, m) {
 		if (global.db.data.users[m
 				.sender].limit >
 			0) {
-			const old = new Date();
 			const response =
 				await fetch(
 					`https://api.botcahx.eu.org/api/dowloader/fbdown3?url=${link}&apikey=${btc}`
@@ -335,31 +353,79 @@ async function _facebook(link, m) {
 			let urls = json.result
 				.url.urls;
 			if (Array.isArray(
-				urls) && urls.some(
-					url => url.sd)
-				) {
+				urls) && urls.some((
+						url) => url
+					.sd)) {
 				global.db.data
 					.users[m.sender]
 					.limit -= 1;
 				let videoUrl = urls
-					.find(url => url
-						.sd).sd;
+					.find((url) =>
+						url.sd).sd;
 				conn.sendFile(m
 					.chat,
 					videoUrl,
-					'fb.mp4',
-					`🍟 *Fetching* : ${((new Date - old) * 1)} ms`,
+					"fb.mp4",
+					`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 					m);
 			}
 			else {
 				conn.reply(m.chat,
-					'Gagal mendapatkan video',
+					"Gagal mendapatkan video",
 					m);
 			}
 		}
 		else {
 			conn.reply(m.chat,
-				'limit kamu habis!',
+				"limit kamu habis!",
+				m);
+		}
+	}
+	catch (error) {
+		console.error(error);
+	}
+}
+async function _youtube(link, m) {
+	try {
+		if (global.db.data.users[m
+				.sender].limit >
+			0) {
+			const response =
+				await fetch(
+					`https://api.botcahx.eu.org/api/dowloader/yt?url=${link}&apikey=${btc}`
+					);
+			const result =
+				await response
+				.json();
+			if (result.status &&
+				result.result &&
+				result.result.mp4) {
+				global.db.data
+					.users[m.sender]
+					.limit -= 1;
+				await conn
+					.sendMessage(
+						m.chat, {
+							video: {
+								url: result
+									.result
+									.mp4,
+							},
+							caption: `🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
+						}, {
+							quoted: m
+						}
+					);
+			}
+			else {
+				conn.reply(m.chat,
+					"Gagal mendapatkan video",
+					m);
+			}
+		}
+		else {
+			conn.reply(m.chat,
+				"limit kamu habis!",
 				m);
 		}
 	}
@@ -388,15 +454,15 @@ async function _pindl(link, m) {
 					.users[m.sender]
 					.limit -= 1;
 				if (media_type ===
-					'video/mp4') {
+					"video/mp4") {
 					await conn
 						.sendMessage(
 							m
 							.chat, {
 								video: {
-									url: image
+									url: image,
 								},
-								caption: `🍟 *Fetching* : ${((new Date - old) * 1)} ms`
+								caption: `🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 							});
 				}
 				else {
@@ -404,20 +470,20 @@ async function _pindl(link, m) {
 						.sendFile(m
 							.chat,
 							image,
-							'pindl.jpeg',
-							`🍟 *Fetching* : ${((new Date - old) * 1)} ms`,
+							"pindl.jpeg",
+							`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 							m);
 				}
 			}
 			else {
 				conn.reply(m.chat,
-					'Gagal mendapatkan video',
+					"Gagal mendapatkan media!",
 					m);
 			}
 		}
 		else {
 			conn.reply(m.chat,
-				'limit kamu habis!',
+				"limit kamu habis!",
 				m);
 		}
 	}
