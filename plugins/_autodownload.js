@@ -1,5 +1,4 @@
 let fetch = require("node-fetch");
-
 let handler = (m) => m;
 handler.before = async function (m, {
 	conn,
@@ -42,7 +41,7 @@ handler.before = async function (m, {
 	const threadsRegex =
 		/^(https?:\/\/)?(www\.)?threads\.net(\/[^\s]*)?(\?[^\s]*)?$/;
 	const capcutRegex =
-		/^(https?:\/\/)?(www\.)?capcut\.com(\/t\/[a-zA-Z0-9]+|\/template-detail\/\d+\?template_id=\d+&[\w=&%-]*)$/i;
+		/^https:\/\/www\.capcut\.com\/(t\/[A-Za-z0-9_-]+\/?|template-detail\/\d+\?(?:[^=]+=[^&]+&?)+)$/
 	const snackvideoRegex =
 		/^(https?:\/\/)?s\.snackvideo\.com\/p\/[a-zA-Z0-9]+$/i;
 	if (text.match(
@@ -491,17 +490,18 @@ async function _youtube(link, m) {
 					.users[m.sender]
 					.limit -= 1;
 				await conn
-					.sendMessage(m
-						.chat, {
+					.sendMessage(
+						m.chat, {
 							audio: {
 								url: result
 									.result
-									.mp3
+									.mp3,
 							},
-							mimetype: 'audio/mpeg'
+							mimetype: "audio/mpeg",
 						}, {
-							quoted: m
-						});
+							quoted: m,
+						}
+					);
 				await _sleep(1000);
 				await conn
 					.sendMessage(
@@ -553,15 +553,16 @@ async function _spotify(url, m) {
 				} = jsons.result
 					.data;
 				await conn
-					.sendMessage(m
-						.chat, {
+					.sendMessage(
+						m.chat, {
 							audio: {
-								url: downloadUrl
+								url: downloadUrl,
 							},
-							mimetype: 'audio/mpeg'
+							mimetype: "audio/mpeg",
 						}, {
-							quoted: m
-						});
+							quoted: m,
+						}
+					);
 			}
 			else {
 				conn.reply(m.chat,
@@ -656,12 +657,12 @@ async function _threads(url, m) {
 							.chat,
 							video
 							.download_url,
-							'threads.mp4',
+							"threads.mp4",
 							`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 							m);
 				}
 				catch (e) {
-					throw 'Media video tidak ditemukan!';
+					throw "Media video tidak ditemukan!";
 				}
 			}
 			else if (foto) {
@@ -670,16 +671,16 @@ async function _threads(url, m) {
 						.sendFile(m
 							.chat,
 							foto,
-							'threads.jpeg',
+							"threads.jpeg",
 							`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 							m);
 				}
 				catch (e) {
-					throw 'Media foto tidak ditemukan!';
+					throw "Media foto tidak ditemukan!";
 				}
 			}
 			else {
-				throw 'Konten tidak ditemukan!';
+				throw "Konten tidak ditemukan!";
 			}
 			global.db.data.users[m
 					.sender]
@@ -687,7 +688,7 @@ async function _threads(url, m) {
 		}
 		else {
 			conn.reply(m.chat,
-				'Limit kamu habis!',
+				"Limit kamu habis!",
 				m);
 		}
 	}
@@ -716,7 +717,7 @@ async function _capcut(url, m) {
 			await conn.sendFile(m
 				.chat,
 				video_ori,
-				'capcut.mp4',
+				"capcut.mp4",
 				`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 				m);
 		}
