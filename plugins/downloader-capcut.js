@@ -12,13 +12,11 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         const response = await axios.get(`https://api.botcahx.eu.org/api/dowloader/capcut?url=${args[0]}&apikey=${btc}`);
         const res = response.data;
         const { 
-            video_ori, 
-            title, 
-            digunakan,
-            cover,
-            author_profile
+            owner, 
+            title,
+            video
         } = res.result;
-        conn.sendFile(m.chat, video_ori, 'capcut.mp4', `Title: ${title}\nDigunakan: ${digunakan}\nThumbnail: ${cover}\nProfile: ${author_profile}`, m);
+        conn.sendFile(m.chat, video, 'capcut.mp4', `Title: ${title}\nOwner: ${owner}`, m);
     } catch (e) {
         console.log(e);
         throw `Terjadi Kesalahan!`;
