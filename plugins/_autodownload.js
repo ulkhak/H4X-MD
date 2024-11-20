@@ -763,3 +763,62 @@ async function _snackvideo(url, m) {
 		console.log(e);
 	}
 }
+
+async function _pindl(link, m) {
+	try {
+		if (global.db.data.users[m
+				.sender].limit >
+			0) {
+			const api = await fetch(
+				`https://api.botcahx.eu.org/api/download/pinterest?url=${link}&apikey=${btc}`
+				);
+			const res = await api
+				.json();
+			if (res.result && res
+				.result.data) {
+				let {
+					media_type,
+					image,
+					title
+				} = res.result.data;
+				global.db.data
+					.users[m.sender]
+					.limit -= 1;
+				if (media_type ===
+					"video/mp4") {
+					await conn
+						.sendMessage(
+							m
+							.chat, {
+								video: {
+									url: image,
+								},
+								caption: `🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
+							});
+				}
+				else {
+					await conn
+						.sendFile(m
+							.chat,
+							image,
+							"pindl.jpeg",
+							`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
+							m);
+				}
+			}
+			else {
+				conn.reply(m.chat,
+					"Gagal mendapatkan media!",
+					m);
+			}
+		}
+		else {
+			conn.reply(m.chat,
+				"limit kamu habis!",
+				m);
+		}
+	}
+	catch (error) {
+		console.error(error);
+	}
+}
