@@ -11,9 +11,9 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     m.reply(wait);
     const api = await fetch(`https://api.botcahx.eu.org/api/download/pinterest?url=${args[0]}&apikey=${btc}`);
     const res = await api.json();
-    let { media_type, image, title } = res.result.data;
+    let { media_type, image, title, video } = res.result.data;
     if (media_type === 'video/mp4') {
-      await conn.sendMessage(m.chat, { video: { url: image } });
+      await conn.sendMessage(m.chat, { video: { url: video } });
     } else {
       conn.sendFile(m.chat, image, 'pindl.jpeg', `*Title:* ${title}\n*Mediatype:* ${media_type}\n*Source Url*: ${image}\n`, m);
     }
