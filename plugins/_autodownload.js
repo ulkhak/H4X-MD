@@ -709,14 +709,14 @@ async function _capcut(url, m) {
 				await response
 				.json();
 			const {
-				video_ori
+				video
 			} = res.result;
 			global.db.data.users[m
 					.sender]
 				.limit -= 1;
 			await conn.sendFile(m
 				.chat,
-				video_ori,
+				video,
 				"capcut.mp4",
 				`🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 				m);
