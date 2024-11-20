@@ -779,7 +779,8 @@ async function _pindl(link, m) {
 				let {
 					media_type,
 					image,
-					title
+					title,
+					video
 				} = res.result.data;
 				global.db.data
 					.users[m.sender]
@@ -791,7 +792,7 @@ async function _pindl(link, m) {
 							m
 							.chat, {
 								video: {
-									url: image,
+									url: video,
 								},
 								caption: `🍟 *Fetching* : ${(new Date() - old) * 1} ms`,
 							});
