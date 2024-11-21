@@ -6,7 +6,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
   }
   
   if (!text) {
-    return conn.reply(m.chat, `*『 G A G A L 』*\n\n${usedPrefix}unprem @tag/nomor|days\n\n*Example:* ${usedPrefix}unprem 6285764068784|99`, m);
+    return conn.reply(m.chat, `*『 G A G A L 』*\n\n${usedPrefix}unprem @tag/nomor\n\n*Example:* ${usedPrefix}unprem 6285764068784`, m);
   }
 
   text = no(text) + "@s.whatsapp.net";
