@@ -11,8 +11,8 @@ handler.help = ['bonus']
 handler.tags = ['rpg']
 handler.command = /^(bonus)/i
 handler.register = true
-handler.premium = true
-handler.rpg = true
+handler.premium = false
+handler.rpg = false
 module.exports = handler
 
 function msToTime(duration) {
