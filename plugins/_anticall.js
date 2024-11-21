@@ -1,28 +1,18 @@
-const { WAMessageStubType } = require('@adiwajshing/baileys')
-var { format } = require('util');
-
-let handler = m => m
-
-const isNumber = x => typeof x === 'number' && !isNaN(x)
-const delay = ms => isNumber(ms) && new Promise(resolve => setTimeout(function () {
-    clearTimeout(this)
-    resolve()
-}, ms))
-
-const setting = {
-  anticall: true
+async function before(m) {
+  this.ev.on('call', async (call) => {
+      if (call[0].status == 'offer') {
+       
+        await this.sendMessage(call[0].from, {
+          text: "",
+          quoted: call[0]
+        });
+        await this.rejectCall(call[0].id, call[0].from);
+        await this.updateBlockStatus(call[0].from, "block");
+        global.db.data.users[m.sender].banned = true
+      }
+  });
 }
-
-handler.all = async function (m) {
-  if (m.fromMe && m.isBaileys) return !0
-  let text;
-  if (!setting.anticall) return 
-
-  if (m.messageStubType === (WAMessageStubType.CALL_MISSED_VOICE || WAMessageStubType.CALL_MISSED_VIDEO)) {
-    await this.reply(m.chat, '*Your number is blocked!*\nSee you next time👋', null)
-    await delay(1000)
-    await this.updateBlockStatus(m.chat, "block")
-  }
-}
-
-module.exports = handler
+module.exports = {
+  before
+};
+ 
