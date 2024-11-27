@@ -68,7 +68,7 @@ handler.help = ['teraboxdl'].map(v => v + ' <url>')
 handler.tags = ['downloader']
 handler.command = /^(teraboxdl|terabox)$/i
 handler.limit = true
-handler.premium = false
+handler.premium = true
 
 module.exports = handler
 
