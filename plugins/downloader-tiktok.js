@@ -17,7 +17,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             }
             let capt = `乂 *T I K T O K*\n\n`;
             capt += `◦ *Title* : ${title}\n`;
-            capt += `◦ *Audio* : ${title_audio}\n`;
             capt += `\n`;   
                  
             if (video.length > 1) {
