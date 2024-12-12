@@ -16,7 +16,7 @@ let path = require('path')
 let fetch = require('node-fetch')
 let moment = require('moment-timezone')
 let levelling = require('../lib/levelling')
-let arrayMenu = ['all', 'main', 'downloader', 'rpg', 'rpgG', 'sticker', 'advanced', 'xp', 'fun', 'game', 'github', 'group', 'image', 'nsfw', 'info', 'internet', 'islam', 'kerang', 'maker', 'owner', 'voice', 'quotes', 'store', 'stalk', 'shortlink', 'tools', 'anonymous', ''];
+let arrayMenu = ['all', 'main', 'downloader', 'rpg', 'rpgG', 'sticker', 'advanced', 'xp', 'fun', 'game', 'github', 'group', 'image', 'nsfw', 'info', 'internet', 'islam', 'kerang', 'maker', 'owner', 'voice', 'quotes', 'stalk', 'shortlink', 'tools', 'anonymous', ''];
 
 
 const allTags = {
@@ -42,7 +42,6 @@ const allTags = {
     'owner': 'MENU OWNER',
     'voice': 'PENGUBAH SUARA',
     'quotes': 'MENU QUOTES',
-    'store': 'MENU STORE',
     'stalk': 'MENU STALK',
     'shortlink': 'SHORT LINK',
     'tools': 'MENU TOOLS',
@@ -126,23 +125,7 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
             let text = menuList.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
                 (_, name) => '' + replace[name])
 
-            await conn.relayMessage(m.chat, {
-            extendedTextMessage:{
-                text: text, 
-                contextInfo: {
-                    mentionedJid: [m.sender],
-                    externalAdReply: {
-                        title: date,
-                        mediaType: 1,
-                        previewType: 0,
-                        renderLargerThumbnail: true,
-                        thumbnailUrl: 'https://telegra.ph/file/3a34bfa58714bdef500d9.jpg',
-                        sourceUrl: 'https://whatsapp.com/channel/0029Va8ZH8fFXUuc69TGVw1q'
-                    }
-                }, 
-                mentions: [m.sender]
-            }
-        }, {})
+            await conn.fakeReply(m.chat, text, '0@s.whatsapp.net', 'ig: @ulhaqmz_', 'status@broadcast')
             return
         }
 
@@ -199,23 +182,7 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
         let text = menuCategory.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
             (_, name) => '' + replace[name])
 
-        await conn.relayMessage(m.chat, {
-            extendedTextMessage:{
-                text: text, 
-                contextInfo: {
-                    mentionedJid: [m.sender],
-                    externalAdReply: {
-                        title: date,
-                        mediaType: 1,
-                        previewType: 0,
-                        renderLargerThumbnail: true,
-                        thumbnailUrl: 'https://telegra.ph/file/3a34bfa58714bdef500d9.jpg',
-                        sourceUrl: 'https://whatsapp.com/channel/0029Va8ZH8fFXUuc69TGVw1q'
-                    }
-                }, 
-                mentions: [m.sender]
-            }
-        }, {})
+        await conn.fakeReply(m.chat, text, '0@s.whatsapp.net', 'instagram: @ulhaqmz_', 'status@broadcast')
     } catch (e) {
         conn.reply(m.chat, 'Maaf, menu sedang error', m)
         console.error(e)
